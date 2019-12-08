@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 
 function App() {
@@ -24,12 +24,12 @@ function App() {
   // Hook useMemo: used to call a function when some variable changes
   const techSize = useMemo(() => techs.length, [techs]);
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     if(input && !techs.find(tech => tech === input)) {
       setTechs([...techs, input])
     }
     setInput("");
-  }
+  }, [techs, input]);
 
   return (
     <>
