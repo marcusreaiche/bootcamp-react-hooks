@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
   const [input, setInput] = useState("");
 
   // Hook useEffect
+  // Fetching techs from local storage
   useEffect(() => {
     const storageTechs = JSON.parse(localStorage.getItem("techs"));
     if(storageTechs) {
@@ -15,10 +16,13 @@ function App() {
     }
   }, []);
 
-  
+  // Writing techs to local storage
   useEffect(() => {
     localStorage.setItem("techs", JSON.stringify(techs));
   }, [ techs ]);
+
+  // Hook useMemo: used to call a function when some variable changes
+  const techSize = useMemo(() => techs.length, [techs]);
 
   function handleAdd() {
     if(input && !techs.find(tech => tech === input)) {
@@ -35,6 +39,8 @@ function App() {
           <li key={tech}>{tech}</li>
         ))}
       </ul>
+        <strong>You've added {techSize} techs!</strong>
+        <br />
       <input 
         type="text" 
         value={input}
